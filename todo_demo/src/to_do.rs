@@ -2,8 +2,6 @@ use std::collections::HashMap;
 use std::io::{Read, Write};
 use std::str::FromStr;
 
-use serde_json;
-
 pub struct Todo {
     map: HashMap<String, bool>,
 }
@@ -23,7 +21,7 @@ impl Todo {
     }
 
     pub fn save_json(self) -> Result<(), Box<dyn std::error::Error>> {
-        let mut file = std::fs::OpenOptions::new()
+        let file = std::fs::OpenOptions::new()
             .write(true)
             .create(true)
             .read(true)
@@ -34,9 +32,12 @@ impl Todo {
         Ok(())
     }
 
-    pub fn complete(&mut self, key: &String) -> Option<()> {
+    pub fn complete(&mut self, key: &str) -> Option<()> {
         match self.map.get_mut(key) {
-            Some(val) => Some(*val = false),
+            Some(val) => {
+                *val = false;
+                Some(())
+            }
             None => None,
         }
     }
@@ -60,7 +61,7 @@ pub(crate) fn new() -> Result<Todo, std::io::Error> {
 }
 
 pub(crate) fn new_json() -> Result<Todo, std::io::Error> {
-    let mut file = std::fs::OpenOptions::new()
+    let file = std::fs::OpenOptions::new()
         .write(true)
         .create(true)
         .read(true)
