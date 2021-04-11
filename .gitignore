@@ -14,6 +14,5 @@ Cargo.lock
 
 .idea
 todo_demo/target/
-
-/src/leetcode/editor/cn/all.json
-/src/leetcode/editor/cn/translation.json
+*/all.json
+*/translation.json
