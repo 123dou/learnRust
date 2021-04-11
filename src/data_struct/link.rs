@@ -1,3 +1,5 @@
+use std::mem::replace;
+
 pub enum Link<T> {
     // 空节点
     None,
@@ -6,9 +8,15 @@ pub enum Link<T> {
     // 常规节点,包含下一个节点
     Link { item: T, next: Box<Link<T>> },
 }
-
+#[derive(Default)]
 pub struct Cursor<T> {
     curr: Link<T>,
+}
+
+impl<T> Default for Link<T> {
+    fn default() -> Self {
+        Link::None
+    }
 }
 
 impl<T> Link<T>
@@ -16,13 +24,13 @@ where
     T: Copy,
 {
     pub fn new() -> Link<T> {
-        Self::None
+        Self::default()
     }
     // 改变当前值,必须用&mut self
     pub fn push(&mut self, val: T) {
         match self {
-            Self::None => self.to_tail(val),
-            Self::Tail { item: _ } => self.to_link(val),
+            Self::None => self.be_tail(val),
+            Self::Tail { item: _ } => self.connect_link(val),
             Self::Link { item: _, next } => next.push(val),
         }
     }
@@ -31,26 +39,26 @@ where
             Self::None => None,
             Self::Tail { item } => {
                 let it = *item;
-                self.to_none();
+                self.be_none();
                 Some(it)
             }
             Self::Link { item, next } => {
                 let mut temp = Box::new(Link::None);
                 let it = *item;
                 std::mem::swap(next, &mut temp);
-                self.to_next(*temp);
+                self.be_next(*temp);
                 Some(it)
             }
         }
     }
-    fn to_tail(&mut self, val: T) {
+    fn be_tail(&mut self, val: T) {
         *self = match self {
             Self::None => Self::Tail { item: val },
             Self::Link { item: _, next: _ } => Self::Tail { item: val },
             _ => panic!("the link can't convert to Tail"),
         }
     }
-    fn to_link(&mut self, val: T) {
+    fn connect_link(&mut self, val: T) {
         *self = match self {
             Self::Tail { item } => Self::Link {
                 item: *item,
@@ -59,10 +67,10 @@ where
             _ => panic!("the link can't convert to link"),
         }
     }
-    fn to_none(&mut self) {
-        std::mem::replace(self, Self::None);
+    fn be_none(&mut self) {
+        replace(self, Self::None);
     }
-    fn to_next(&mut self, next: Link<T>) {
+    fn be_next(&mut self, next: Link<T>) {
         *self = next;
     }
 }

@@ -23,22 +23,17 @@ struct Solution {}
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn reverse_string(s: &mut Vec<char>) {
-        if s.len() == 0 {
+        if s.is_empty() {
             return;
         }
+        // s.reverse();
         let mut lo = 0;
         let mut hi = s.len() - 1;
         while lo < hi {
-            self::Solution::swap(s, lo, hi);
+            s.swap(lo, hi);
             lo += 1;
             hi -= 1;
         }
-    }
-
-    pub fn swap(s: &mut Vec<char>, i: usize, j: usize) {
-        let temp = s[i];
-        s[i] = s[j];
-        s[j] = temp;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

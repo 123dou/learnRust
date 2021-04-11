@@ -40,7 +40,7 @@ impl Solution {
             if nums[zero] == 0 {
                 while not_zero < nums.len() {
                     if nums[not_zero] != 0 {
-                        Solution::swap(nums, zero, not_zero);
+                        nums.swap(zero, not_zero);
                         break;
                     }
                     not_zero += 1;
@@ -49,12 +49,6 @@ impl Solution {
             zero += 1;
             not_zero += 1;
         }
-    }
-
-    pub fn swap(nums: &mut Vec<i32>, i: usize, j: usize) {
-        let temp = nums[i];
-        nums[i] = nums[j];
-        nums[j] = temp;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

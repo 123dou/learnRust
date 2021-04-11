@@ -49,6 +49,19 @@ impl Solution {
         if k == 0 {
             return;
         }
+        let left = nums.len() - k;
+        let left_slice = &mut nums[..left];
+        left_slice.reverse();
+        let right_slice = &mut nums[left..];
+        right_slice.reverse();
+        nums.reverse();
+    }
+
+    pub fn rotate2(nums: &mut Vec<i32>, k: i32) {
+        let k = (k % nums.len() as i32) as usize;
+        if k == 0 {
+            return;
+        }
         Solution::reverse(nums, 0, nums.len() - 1 - k);
         Solution::reverse(nums, nums.len() - k, nums.len() - 1);
         Solution::reverse(nums, 0, nums.len() - 1);
@@ -58,16 +71,10 @@ impl Solution {
         let mut temp_low = low;
         let mut temp_hi = hi;
         while temp_low < temp_hi {
-            Solution::swap(nums, temp_low, temp_hi);
+            nums.swap(temp_hi, temp_low);
             temp_low += 1;
             temp_hi -= 1;
         }
-    }
-
-    pub fn swap(nums: &mut Vec<i32>, i: usize, j: usize) {
-        let temp = nums[i];
-        nums[i] = nums[j];
-        nums[j] = temp;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

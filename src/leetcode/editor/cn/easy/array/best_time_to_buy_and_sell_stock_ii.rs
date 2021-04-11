@@ -57,7 +57,7 @@ struct Solution {}
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn max_profit(prices: Vec<i32>) -> i32 {
-        if prices.len() == 0 {
+        if prices.is_empty() {
             return 0;
         }
         let mut sum = 0;
@@ -68,7 +68,7 @@ impl Solution {
             }
             now = prices[idx];
         }
-        return sum;
+        sum
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

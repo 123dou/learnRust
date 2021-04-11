@@ -51,15 +51,14 @@ impl Solution {
         if n == 1 {
             return itar;
         }
-        for _i in 2..n + 1 {
+        for _ in 2..n + 1 {
             // 迭代计算每一轮的结果
             let mut temp = "".to_string();
-            let _count = 1;
             let mut j = 0;
             while j < itar.len() {
-                let num = itar.get(j..j + 1).unwrap();
+                let num = &itar[j..j + 1];
                 let mut count = 1;
-                while j != itar.len() - 1 && itar.get(j + 1..j + 2).unwrap().eq(num) {
+                while j != itar.len() - 1 && itar[j + 1..j + 2].eq(num) {
                     count += 1;
                     j += 1;
                 }
@@ -69,7 +68,7 @@ impl Solution {
             }
             itar = temp.clone();
         }
-        return itar;
+        itar
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

@@ -28,14 +28,16 @@
 // Related Topics 排序 哈希表 双指针 二分查找
 // 👍 299 👎 0
 
+use std::cmp::Ordering;
+
 #[cfg(test)]
 pub mod tests {
     use super::*;
 
     #[test]
     fn test_intersection_of_two_arrays_ii() {
-        let nums1 = vec![3, 1, 2];
-        let nums2 = vec![1, 1];
+        let nums1 = vec![1, 2, 2, 1];
+        let nums2 = vec![2, 2];
         println!("{:?}", Solution::intersect(nums1, nums2));
     }
 }
@@ -48,30 +50,32 @@ impl Solution {
         if nums1.is_empty() || nums2.is_empty() {
             return vec![];
         }
-        let mut nums1 = nums1.clone();
-        let mut nums2 = nums2.clone();
-        nums1.sort();
-        nums2.sort();
+        let mut nums1 = nums1;
+        let mut nums2 = nums2;
+        nums1.sort_unstable();
+        nums2.sort_unstable();
         let mut res = vec![];
-        let mut start = 0;
-        for i in 0..nums1.len() {
-            if nums1.first().unwrap().gt(nums2.last().unwrap()) {
+        let mut num2_idx = 0;
+        for &num1 in nums1.iter() {
+            if num1 > *nums2.last().unwrap() {
                 break;
             }
-            let mut j = start;
-            while j < nums2.len() {
-                if nums1[i] == nums2[j] {
-                    res.push(nums1[i]);
-                    start = j + 1;
-                    break;
-                } else if nums1[i] < nums2[j] {
-                    start = j;
-                    break;
+            for (idx, &num2) in nums2[num2_idx..].iter().enumerate() {
+                match num1.cmp(&num2) {
+                    Ordering::Equal => {
+                        res.push(num1);
+                        num2_idx += idx + 1;
+                        break;
+                    }
+                    Ordering::Less => {
+                        num2_idx += idx;
+                        break;
+                    }
+                    _ => {}
                 }
-                j += 1;
             }
         }
-        return res;
+        res
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

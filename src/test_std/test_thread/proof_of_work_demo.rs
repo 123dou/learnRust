@@ -11,7 +11,7 @@ use crypto::sha2::Sha256;
 
 const BASE: usize = 42;
 const THREADS: usize = 12;
-const DIFFICULTY: &'static str = "123456";
+const DIFFICULTY: &'static str = "12345";
 
 #[test]
 fn proof_of_work() {

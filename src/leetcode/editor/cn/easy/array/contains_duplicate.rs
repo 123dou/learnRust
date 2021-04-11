@@ -46,7 +46,7 @@ impl Solution {
                 set.insert(x);
             }
         }
-        return false;
+        false
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

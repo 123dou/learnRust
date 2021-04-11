@@ -67,17 +67,16 @@ pub mod tests {
 
     #[test]
     fn test_my_atoi() {
-        // let strs = " ";
-        // let output = Solution::my_atoi(strs.to_string());
-        // println!("{}", output);
-        println!("{}", "1332\n2");
+        let strs = "-2147483647";
+        let output = Solution::my_atoi2(strs.to_string());
+        println!("{}", output);
     }
 }
 
 struct Solution {}
 
 //leetcode submit region begin(Prohibit modification and deletion)
-
+//每一次加，乘都要考虑溢出，并且考虑是否为最后一个元素
 impl Solution {
     pub fn my_atoi2(str: String) -> i32 {
         if str.is_empty() {
@@ -99,26 +98,41 @@ impl Solution {
             return 0;
         }
         // 开始转换
-        let mut res: i64 = 0;
+        let mut res = 0;
         while idx < str.len() && str.as_bytes()[idx].is_ascii_digit() {
-            if res > i32::MAX as i64 {
-                return if pos { i32::MAX } else { i32::MIN };
+            let plus_num = (str.as_bytes()[idx] - b'0') as i32;
+            // 判断溢出
+            if pos && res > i32::MAX - plus_num {
+                return i32::MAX;
             }
-            res += (str.as_bytes()[idx] - b'0') as i64;
+            if !pos && -res < i32::MIN + plus_num {
+                return i32::MIN;
+            }
+            // 加之前判断溢出
+            res += plus_num;
+            if pos && res > i32::MAX / 10 {
+                // 溢出之后判断是否为最后一个元素,因为最后一个元素不用乘10
+                return if idx + 1 < str.len() && str.as_bytes()[idx + 1].is_ascii_digit() {
+                    i32::MAX
+                } else {
+                    res
+                };
+            }
+            if !pos && -res < i32::MIN / 10 {
+                return if idx + 1 < str.len() && str.as_bytes()[idx + 1].is_ascii_digit() {
+                    i32::MIN
+                } else {
+                    -res
+                };
+            }
+            // 乘之前判断溢出
             res *= 10;
             idx += 1;
         }
         if !pos {
             res = 0 - res;
         }
-        res /= 10;
-        return if res < i32::MIN as i64 {
-            i32::MIN
-        } else if res > i32::MAX as i64 {
-            i32::MAX
-        } else {
-            res as i32
-        };
+        res / 10
     }
 
     pub fn my_atoi(str: String) -> i32 {

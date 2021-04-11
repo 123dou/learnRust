@@ -3,11 +3,10 @@ use std::{thread, time};
 use rand::prelude::*;
 
 use crate::sort::sort;
-
+const SIZE: i32 = 10_000;
 #[test]
 pub fn test_bubble_sort() {
-    let n: i32 = 1_0_000;
-    let mut arr = create_arr(n);
+    let mut arr = create_arr(SIZE);
     let start = time::Instant::now();
     sort::bubble_sort(&mut arr);
     let end = start.elapsed();
@@ -21,8 +20,7 @@ pub fn test_bubble_sort() {
 
 #[test]
 pub fn test_choice_sort() {
-    let n: i32 = 1_0_000;
-    let mut arr = create_arr(n);
+    let mut arr = create_arr(SIZE);
     let start = time::Instant::now();
     sort::choice_sort(&mut arr);
     let end = start.elapsed();
@@ -36,109 +34,114 @@ pub fn test_choice_sort() {
 
 #[test]
 pub fn test_insert_sort() {
-    let n: i32 = 1_00_000;
-    let mut arr = create_arr(n);
+    let mut arr = create_arr(SIZE);
     let start = time::Instant::now();
     sort::insert_sort(&mut arr);
     let end = start.elapsed();
     println!("insert sort total cost time: {:?}", end);
-    if !check_order(&arr) {
+    let is_order = check_order(&arr);
+    if !is_order {
         println!("{:?}", "insert sort fail..");
     } else {
         println!("{:?}", "insert sort pass!!!");
     }
+    assert!(is_order);
 }
 
 #[test]
 pub fn test_shell_sort() {
-    let n: i32 = 1_000;
-    let mut arr = create_arr(n);
+    let mut arr = create_arr(SIZE);
     println!("{:?}", arr);
     let start = time::Instant::now();
     sort::shell_sort2(&mut arr);
     let end = start.elapsed();
     println!("shell sort total cost time: {:?}", end);
-    if !check_order(&arr) {
+    let is_order = check_order(&arr);
+    if !is_order {
         println!("{:?}", "shell sort fail..");
     } else {
         println!("{:?}", "shell sort pass!!!");
     }
     println!("{:?}", arr);
+    assert!(is_order);
 }
 
 #[test]
 pub fn test_heap_sort() {
-    let n: i32 = 1_000_000;
-    let mut arr = create_arr(n);
+    let mut arr = create_arr(SIZE);
     // println!("{:?}", arr);
     let start = time::Instant::now();
     sort::heap_sort(&mut arr);
     let end = start.elapsed();
     println!("heap sort total cost time: {:?}", end);
-    if !check_order(&arr) {
+    let is_order = check_order(&arr);
+    if !is_order {
         println!("{:?}", "heap sort fail..");
     } else {
         println!("{:?}", "heap sort pass!!!");
     }
+    assert!(is_order);
     // println!("{:?}", arr);
 }
 
 #[test]
 pub fn test_merge_sort() {
-    let n: i32 = 1_000_000;
-    let mut arr = create_arr(n);
+    let mut arr = create_arr(SIZE);
     // println!("{:?}", arr);
     let start = time::Instant::now();
     sort::merge2_sort(&mut arr);
     // let arr = sort::merge_sort(&arr);
     let end = start.elapsed();
     println!("merge sort total cost time: {:?}", end);
-    if !check_order(&arr) {
+    let is_order = check_order(&arr);
+    if !is_order {
         println!("{:?}", "merge sort fail..");
     } else {
         println!("{:?}", "merge sort pass!!!");
     }
+    assert!(is_order);
     // println!("{:?}", arr);
 }
 
 #[test]
 pub fn test_quick_sort() {
-    let n: i32 = 1_000_000;
-    let mut arr = create_arr(n);
+    let mut arr = create_arr(SIZE);
     // println!("{:?}", arr);
     let start = time::Instant::now();
     sort::quick_sort(&mut arr);
     let end = start.elapsed();
     println!("quick sort total cost time: {:?}", end);
-    if !check_order(&arr) {
+    let is_order = check_order(&arr);
+    if !is_order {
         println!("{:?}", "quick sort fail..");
     } else {
         println!("{:?}", "quick sort pass!!!");
     }
+    assert!(is_order);
     // println!("{:?}", arr);
 }
 
 #[test]
 pub fn test_count_sort() {
-    let n: i32 = 1_000_000;
-    let mut arr = create_arr(n);
+    let mut arr = create_arr(SIZE);
     // println!("{:?}", arr);
     let start = time::Instant::now();
     sort::count_sort(&mut arr);
     let end = start.elapsed();
     println!("count sort total cost time: {:?}", end);
-    if !check_order(&arr) {
+    let is_order = check_order(&arr);
+    if !is_order {
         println!("{:?}", "count sort fail..");
     } else {
         println!("{:?}", "count sort pass!!!");
     }
+    assert!(is_order);
     // println!("{:?}", arr);
 }
 
 #[test]
 pub fn test_std_sort() {
-    let n: i32 = 1_000_000;
-    let mut arr = create_arr(n);
+    let mut arr = create_arr(SIZE);
     // println!("{:?}", arr);
     let start = time::Instant::now();
     arr.sort();
@@ -187,7 +190,7 @@ fn create_arr(n: i32) -> Vec<i32> {
     let mut rng = thread_rng();
     let mut arr: Vec<i32> = (0..n).collect();
     arr.shuffle(&mut rng);
-    return arr;
+    arr
 }
 
 fn check_order(arr: &Vec<i32>) -> bool {
@@ -196,8 +199,10 @@ fn check_order(arr: &Vec<i32>) -> bool {
     }
     for i in 0..arr.len() - 1 {
         if arr[i + 1] < arr[i] {
+            println!("arr = {:?}", arr);
+            println!("not in order, index: {}, {}", i, i + 1);
             return false;
         }
     }
-    return true;
+    true
 }

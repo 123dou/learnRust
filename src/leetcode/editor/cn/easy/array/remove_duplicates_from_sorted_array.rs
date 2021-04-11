@@ -47,7 +47,7 @@ struct Solution {}
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn remove_duplicates(nums: &mut Vec<i32>) -> i32 {
-        if nums.len() == 0 {
+        if nums.is_empty() {
             return 0;
         }
         let mut len = 1;
@@ -57,12 +57,12 @@ impl Solution {
                 len += 1;
             }
         }
-        return len as i32;
+        len as i32
     }
 
     pub fn remove_duplicates2(nums: &mut Vec<i32>) -> i32 {
         nums.dedup();
-        return nums.len() as i32;
+        nums.len() as i32
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

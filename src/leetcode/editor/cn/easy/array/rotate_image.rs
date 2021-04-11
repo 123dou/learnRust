@@ -64,16 +64,14 @@ impl Solution {
                 let mut pos = (i, j);
                 for _ in 0..4 {
                     pos = Solution::next_pos(pos, n - 1);
-                    let temp = val;
-                    val = matrix[pos.0][pos.1];
-                    matrix[pos.0][pos.1] = temp;
+                    std::mem::swap(&mut val, &mut matrix[pos.0][pos.1]);
                 }
             }
         }
     }
 
     pub fn next_pos(pos: (usize, usize), n: usize) -> (usize, usize) {
-        return (pos.1, n - pos.0);
+        (pos.1, n - pos.0)
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

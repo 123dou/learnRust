@@ -1,14 +1,14 @@
 use rand::prelude::*;
 
 /// 冒泡排序
-pub fn bubble_sort(arr: &mut Vec<i32>) {
+pub fn bubble_sort(arr: &mut [i32]) {
     if arr.len() <= 1 {
         return;
     }
     for i in 0..arr.len() {
         for j in 0..arr.len() - i - 1 {
             if arr[j] > arr[j + 1] {
-                exchange(arr, j + 1, j);
+                arr.swap(j, j + 1);
             }
         }
     }
@@ -41,17 +41,17 @@ pub fn insert_sort(arr: &mut Vec<i32>) {
     for i in 1..arr.len() {
         let curr = arr[i];
         let mut pre = i - 1;
-        while pre >= 0 && arr[pre] < curr {
+        while arr[pre] > curr {
             arr[pre + 1] = arr[pre];
             if pre == 0 {
+                arr[0] = curr;
                 break;
             }
             pre -= 1;
         }
-        if pre != 0 {
-            pre += 1;
+        if arr[pre] < curr {
+            arr[pre + 1] = curr;
         }
-        arr[pre] = curr;
     }
 }
 
@@ -103,7 +103,7 @@ pub fn shell_sort2(arr: &mut Vec<i32>) {
     }
 }
 
-// heap 排序
+// heap 排序, 建造最大堆
 pub fn heap_sort(arr: &mut Vec<i32>) {
     if arr.len() <= 1 {
         return;
@@ -113,8 +113,8 @@ pub fn heap_sort(arr: &mut Vec<i32>) {
         let mut curr = i;
         let mut parent = (curr - 1) / 2;
         while curr > 0 && arr[curr] > arr[parent] {
-            exchange(arr, curr, parent);
-            curr = parent.clone();
+            arr.swap(curr, parent);
+            curr = parent;
             if curr != 0 {
                 parent = (curr - 1) / 2;
             }
@@ -123,7 +123,7 @@ pub fn heap_sort(arr: &mut Vec<i32>) {
     // 删除头元素
     let mut len = arr.len() - 1;
     while len > 0 {
-        exchange(arr, 0, len);
+        arr.swap(0, len);
         let mut curr = 0;
         let mut child = 1;
         while child < len {
@@ -133,7 +133,7 @@ pub fn heap_sort(arr: &mut Vec<i32>) {
             if arr[child] < arr[curr] {
                 break;
             }
-            exchange(arr, child, curr);
+            arr.swap(child, curr);
             curr = child;
             child = curr * 2 + 1;
         }
@@ -166,15 +166,13 @@ fn merge(arr1: &[i32], arr2: &[i32]) -> Vec<i32> {
             len2 += 1;
         }
     }
-    while len1 < arr1.len() {
-        arr3.push(arr1[len1]);
-        len1 += 1;
+    if len1 < arr1.len() {
+        arr3.extend_from_slice(&arr1[len1..]);
     }
-    while len2 < arr2.len() {
-        arr3.push(arr2[len2]);
-        len2 += 1;
+    if len2 < arr2.len() {
+        arr3.extend_from_slice(&arr2[len2..]);
     }
-    return arr3;
+    arr3
 }
 
 // 归并排序
@@ -195,25 +193,26 @@ pub fn merge2_sort(arr: &mut Vec<i32>) {
 }
 
 fn merge2(arr: &mut Vec<i32>, left: usize, sz: usize, hi: usize, aux: &mut Vec<i32>) {
+    // for i in left..hi {
+    //     aux[i] = arr[i];
+    // }
+    aux[left..hi].clone_from_slice(&arr[left..hi]);
+    let mut l_arr_idx = left;
+    let mut r_arr_idx = left + sz;
     for i in left..hi {
-        aux[i] = arr[i];
-    }
-    let mut l_index = left;
-    let mut r_index = left + sz;
-    for i in left..hi {
-        if l_index >= left + sz {
-            arr[i] = aux[r_index];
-            r_index += 1;
-        } else if r_index >= hi {
-            arr[i] = aux[l_index];
-            l_index += 1;
-        } else if aux[l_index] < aux[r_index] {
+        if l_arr_idx >= left + sz {
+            arr[i] = aux[r_arr_idx];
+            r_arr_idx += 1;
+        } else if r_arr_idx >= hi {
+            arr[i] = aux[l_arr_idx];
+            l_arr_idx += 1;
+        } else if aux[l_arr_idx] < aux[r_arr_idx] {
             // 用辅助数组来比较
-            arr[i] = aux[l_index];
-            l_index += 1;
+            arr[i] = aux[l_arr_idx];
+            l_arr_idx += 1;
         } else {
-            arr[i] = aux[r_index];
-            r_index += 1;
+            arr[i] = aux[r_arr_idx];
+            r_arr_idx += 1;
         }
     }
 }
@@ -225,51 +224,50 @@ pub fn quick_sort(arr: &mut Vec<i32>) {
         return;
     }
     let mut rng = thread_rng();
-    quick_sort2(arr, 0, arr.len() - 1, &mut rng);
+    quick_sort_aux(arr, 0, arr.len() - 1, &mut rng);
 }
 
-fn quick_sort2(arr: &mut Vec<i32>, lo: usize, hi: usize, rng: &mut ThreadRng) {
+fn quick_sort_aux(arr: &mut Vec<i32>, lo: usize, hi: usize, rng: &mut ThreadRng) {
     if lo >= hi {
         return;
     }
-    let pivot = partion(arr, lo, hi, rng);
+    let pivot = partition(arr, lo, hi, rng);
     if pivot > lo {
-        quick_sort2(arr, lo, pivot - 1, rng);
+        quick_sort_aux(arr, lo, pivot - 1, rng);
     }
     if pivot < hi {
-        quick_sort2(arr, pivot + 1, hi, rng);
+        quick_sort_aux(arr, pivot + 1, hi, rng);
     }
 }
 
-fn partion(arr: &mut Vec<i32>, lo: usize, hi: usize, rng: &mut ThreadRng) -> usize {
+fn partition(arr: &mut Vec<i32>, lo: usize, hi: usize, rng: &mut ThreadRng) -> usize {
     let pivot = rng.gen_range(lo, hi + 1);
-    // exchange(arr, pivot, hi);
     arr.swap(pivot, hi);
-    let mut pre = lo as i32 - 1;
+    let mut pre = (true, lo);
     for i in lo..hi + 1 {
         if arr[i] <= arr[hi] {
-            pre += 1;
-            if i > pre as usize {
-                // exchange(arr, i, pre as usize);
-                arr.swap(i, pre as usize);
+            if !pre.0 {
+                pre.1 += 1;
+            } else {
+                pre.0 = false;
+            }
+            if i > pre.1 {
+                arr.swap(i, pre.1);
             }
         }
     }
-    return pre as usize;
+    pre.1
 }
 
 pub fn count_sort(arr: &mut Vec<i32>) {
     if arr.len() <= 1 {
         return;
     }
-    let min = arr.iter_mut().min().cloned().unwrap_or(0);
-    let max = arr.iter().max().cloned().unwrap_or(0);
+    let min = *arr.iter().min().unwrap_or(&0);
+    let max = *arr.iter().max().unwrap_or(&0);
     let len = (max - min + 1) as usize;
-    let mut aux: Vec<i32> = Vec::with_capacity(len);
-    for _i in 0..len {
-        aux.push(0);
-    }
-    arr.iter().for_each(|i| aux[*i as usize] += 1);
+    let mut aux = vec![0; len];
+    arr.iter().for_each(|&i| aux[i as usize] += 1);
     let mut idx = 0;
     for i in 0..aux.len() {
         while aux[i] > 0 {
@@ -278,10 +276,4 @@ pub fn count_sort(arr: &mut Vec<i32>) {
             idx += 1;
         }
     }
-}
-
-fn exchange(arr: &mut [i32], i: usize, j: usize) {
-    let temp = arr[i];
-    arr[i] = arr[j];
-    arr[j] = temp;
 }

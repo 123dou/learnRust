@@ -36,7 +36,7 @@ struct Solution {}
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn plus_one(digits: Vec<i32>) -> Vec<i32> {
-        let mut v = digits.clone();
+        let mut v = digits;
         let mut count = true;
         for i in (0..v.len()).rev() {
             if count {
