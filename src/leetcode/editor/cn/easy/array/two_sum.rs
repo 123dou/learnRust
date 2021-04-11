@@ -32,14 +32,19 @@ struct Solution {}
 
 impl Solution {
     pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
-        let mut map = HashMap::new();
+        // let mut map = HashMap::new();
+        // for (i, &val) in nums.iter().enumerate() {
+        //     map.insert(val, i);
+        // }
         let mut v = vec![];
-        for (i, val) in nums.iter().enumerate() {
-            map.insert(*val, i);
-        }
-        for (i, val) in nums.iter().enumerate() {
-            if map.contains_key(&(target - *val)) {
-                let j = *map.get(&(target - *val)).unwrap();
+        let map = nums
+            .iter()
+            .enumerate()
+            .map(|(idx, &val)| (val, idx))
+            .collect::<HashMap<i32, usize>>();
+        for (i, &val) in nums.iter().enumerate() {
+            if map.contains_key(&(target - val)) {
+                let j = *map.get(&(target - val)).unwrap();
                 if i == j {
                     continue;
                 }
@@ -48,7 +53,7 @@ impl Solution {
                 break;
             }
         }
-        return v;
+        v
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

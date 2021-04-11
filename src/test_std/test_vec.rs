@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 #[test]
 fn test_drain() {
     // 获取vec中的某一个范围的值
@@ -87,4 +89,15 @@ fn test_binary_search() {
     let idx = ve.binary_search(&9).unwrap_or_else(|xx| xx);
     ve.insert(idx, 9);
     println!("ve = {:?}", ve);
+}
+
+#[test]
+fn test_map() {
+    let mut nums = vec![3, 2, 1];
+    let map = nums
+        .iter()
+        .enumerate()
+        .map(|(idx, &val)| (val, idx))
+        .collect::<HashMap<i32, usize>>();
+    println!("map = {:?}", map);
 }

@@ -129,6 +129,7 @@ impl Solution {
             res *= 10;
             idx += 1;
         }
+
         if !pos {
             res = 0 - res;
         }

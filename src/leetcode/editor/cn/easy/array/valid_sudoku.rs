@@ -113,10 +113,10 @@ impl Solution {
                 }
             }
         }
-        return true;
+        true
     }
 
-    pub fn check_dup(vec: &Vec<char>) -> bool {
+    pub fn check_dup(vec: &[char]) -> bool {
         let mut set = HashSet::new();
         for val in vec.iter() {
             if val.ne(&'.') && set.contains(val) {
@@ -125,7 +125,7 @@ impl Solution {
                 set.insert(val);
             }
         }
-        return true;
+        true
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
