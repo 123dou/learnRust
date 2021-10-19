@@ -2,9 +2,9 @@
 // 给定一个工作目标：找到另外一个数字，要求该数字和42相乘后的结果，经过Hash函数处理后，满足得到的加密串以“00000”开头。可以通过堆“00000”增加或者减少0的个数来控制查找的难度
 // 为来找到该数字需要从1开始递增查找，直到找到满足条件的数字。
 
+use std::sync::Arc;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::mpsc::{channel, Sender};
-use std::sync::Arc;
 
 use crypto::digest::Digest;
 use crypto::sha2::Sha256;

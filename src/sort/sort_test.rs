@@ -3,6 +3,7 @@ use std::{thread, time};
 use rand::prelude::*;
 
 use crate::sort::sort;
+
 const SIZE: i32 = 10_000;
 #[test]
 pub fn test_bubble_sort() {

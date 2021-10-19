@@ -73,4 +73,5 @@ pub(crate) fn new_json() -> Result<Todo, std::io::Error> {
         }),
         Err(err) => panic!("serde json file fail. {}", err),
     }
+    
 }

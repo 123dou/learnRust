@@ -7,10 +7,10 @@ use serde::Serialize;
 use toml;
 use toml::de::Error;
 
-#[cfg(test)]
 use crate::learn_open_source::config::Config;
 use crate::learn_open_source::error::ConfigError;
 
+#[cfg(test)]
 mod tests;
 
 #[derive(Debug, Serialize, Deserialize)]

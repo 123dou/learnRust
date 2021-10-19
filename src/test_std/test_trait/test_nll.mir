@@ -1,0 +1,108 @@
+// WARNING: This output format is intended for human consumers only
+// and is subject to change without notice. Knock yourself out.
+fn main() -> () {
+    let mut _0: ();                      // return place in scope 0 at test_nll.rs:4:11: 4:11
+
+    bb0: {
+        _0 = const ();                   // scope 0 at test_nll.rs:4:11: 14:2
+        return;                          // scope 0 at test_nll.rs:14:2: 14:2
+    }
+}
+
+fn dfs(_1: &mut HashMap<&str, BinaryHeap<&str>>) -> () {
+    debug graph => _1;                   // in scope 0 at test_nll.rs:5:12: 5:17
+    let mut _0: ();                      // return place in scope 0 at test_nll.rs:5:57: 5:57
+    let mut _2: std::option::Option<&str>; // in scope 0 at test_nll.rs:10:30: 10:87
+    let mut _3: &mut std::collections::BinaryHeap<&str>; // in scope 0 at test_nll.rs:10:30: 10:81
+    let mut _4: &mut std::collections::BinaryHeap<&str>; // in scope 0 at test_nll.rs:10:30: 10:81
+    let mut _5: std::option::Option<&mut std::collections::BinaryHeap<&str>>; // in scope 0 at test_nll.rs:10:30: 10:47
+    let mut _6: &mut std::collections::HashMap<&str, std::collections::BinaryHeap<&str>>; // in scope 0 at test_nll.rs:10:30: 10:35
+    let mut _7: &str;                    // in scope 0 at test_nll.rs:10:44: 10:46
+    let _8: &str;                        // in scope 0 at test_nll.rs:10:44: 10:46
+    let mut _9: &mut std::collections::BinaryHeap<&str>; // in scope 0 at test_nll.rs:10:58: 10:80
+    let mut _10: &mut std::collections::BinaryHeap<&str>; // in scope 0 at test_nll.rs:10:58: 10:80
+    let mut _11: std::collections::BinaryHeap<&str>; // in scope 0 at test_nll.rs:10:63: 10:80
+    let mut _12: isize;                  // in scope 0 at test_nll.rs:10:19: 10:27
+    let _13: &str;                       // in scope 0 at test_nll.rs:10:24: 10:26
+    let _14: ();                         // in scope 0 at test_nll.rs:11:13: 11:23
+    let mut _15: &mut std::collections::HashMap<&str, std::collections::BinaryHeap<&str>>; // in scope 0 at test_nll.rs:11:17: 11:22
+    scope 1 {
+        debug to => _13;                 // in scope 1 at test_nll.rs:10:24: 10:26
+    }
+
+    bb0: {
+        _6 = &mut (*_1);                 // scope 0 at test_nll.rs:10:30: 10:35
+        _8 = const "";                   // scope 0 at test_nll.rs:10:44: 10:46
+                                         // ty::Const
+                                         // + ty: &str
+                                         // + val: Value(Slice { data: Allocation { bytes: [], relocations: Relocations(SortedMap { data: [] }), init_mask: InitMask { blocks: [], len: Size { raw: 0 } }, size: Size { raw: 0 }, align: Align { pow2: 0 }, mutability: Not, extra: () }, start: 0, end: 0 })
+                                         // mir::Constant
+                                         // + span: test_nll.rs:10:44: 10:46
+                                         // + literal: Const { ty: &str, val: Value(Slice { data: Allocation { bytes: [], relocations: Relocations(SortedMap { data: [] }), init_mask: InitMask { blocks: [], len: Size { raw: 0 } }, size: Size { raw: 0 }, align: Align { pow2: 0 }, mutability: Not, extra: () }, start: 0, end: 0 }) }
+        _7 = _8;                         // scope 0 at test_nll.rs:10:44: 10:46
+        _5 = HashMap::<&str, BinaryHeap<&str>>::get_mut::<str>(move _6, move _7) -> bb1; // scope 0 at test_nll.rs:10:30: 10:47
+                                         // mir::Constant
+                                         // + span: test_nll.rs:10:36: 10:43
+                                         // + literal: Const { ty: for<'r, 's> fn(&'r mut std::collections::HashMap<&str, std::collections::BinaryHeap<&str>>, &'s str) -> std::option::Option<&'r mut std::collections::BinaryHeap<&str>> {std::collections::HashMap::<&str, std::collections::BinaryHeap<&str>>::get_mut::<str>}, val: Value(Scalar(<ZST>)) }
+    }
+
+    bb1: {
+        _11 = BinaryHeap::<&str>::new() -> bb2; // scope 0 at test_nll.rs:10:63: 10:80
+                                         // mir::Constant
+                                         // + span: test_nll.rs:10:63: 10:78
+                                         // + user_ty: UserType(0)
+                                         // + literal: Const { ty: fn() -> std::collections::BinaryHeap<&str> {std::collections::BinaryHeap::<&str>::new}, val: Value(Scalar(<ZST>)) }
+    }
+
+    bb2: {
+        _10 = &mut _11;                  // scope 0 at test_nll.rs:10:58: 10:80
+        _9 = &mut (*_10);                // scope 0 at test_nll.rs:10:58: 10:80
+        _4 = Option::<&mut BinaryHeap<&str>>::unwrap_or(move _5, move _9) -> [return: bb3, unwind: bb9]; // scope 0 at test_nll.rs:10:30: 10:81
+                                         // mir::Constant
+                                         // + span: test_nll.rs:10:48: 10:57
+                                         // + literal: Const { ty: fn(std::option::Option<&mut std::collections::BinaryHeap<&str>>, &mut std::collections::BinaryHeap<&str>) -> &mut std::collections::BinaryHeap<&str> {std::option::Option::<&mut std::collections::BinaryHeap<&str>>::unwrap_or}, val: Value(Scalar(<ZST>)) }
+    }
+
+    bb3: {
+        _3 = &mut (*_4);                 // scope 0 at test_nll.rs:10:30: 10:81
+        _2 = BinaryHeap::<&str>::pop(move _3) -> [return: bb4, unwind: bb9]; // scope 0 at test_nll.rs:10:30: 10:87
+                                         // mir::Constant
+                                         // + span: test_nll.rs:10:82: 10:85
+                                         // + literal: Const { ty: for<'r> fn(&'r mut std::collections::BinaryHeap<&str>) -> std::option::Option<&str> {std::collections::BinaryHeap::<&str>::pop}, val: Value(Scalar(<ZST>)) }
+    }
+
+    bb4: {
+        _12 = discriminant(_2);          // scope 0 at test_nll.rs:10:19: 10:27
+        switchInt(move _12) -> [1_isize: bb6, otherwise: bb5]; // scope 0 at test_nll.rs:10:19: 10:27
+    }
+
+    bb5: {
+        _0 = const ();                   // scope 0 at test_nll.rs:10:9: 12:10
+        drop(_11) -> bb8;                // scope 0 at test_nll.rs:12:9: 12:10
+    }
+
+    bb6: {
+        _13 = ((_2 as Some).0: &str);    // scope 0 at test_nll.rs:10:24: 10:26
+        _15 = &mut (*_1);                // scope 1 at test_nll.rs:11:17: 11:22
+        _14 = dfs(move _15) -> [return: bb7, unwind: bb9]; // scope 1 at test_nll.rs:11:13: 11:23
+                                         // mir::Constant
+                                         // + span: test_nll.rs:11:13: 11:16
+                                         // + literal: Const { ty: for<'r, 's, 't0> fn(&'r mut std::collections::HashMap<&'s str, std::collections::BinaryHeap<&'t0 str>>) {main::dfs}, val: Value(Scalar(<ZST>)) }
+    }
+
+    bb7: {
+        drop(_11) -> bb0;                // scope 0 at test_nll.rs:12:9: 12:10
+    }
+
+    bb8: {
+        return;                          // scope 0 at test_nll.rs:13:6: 13:6
+    }
+
+    bb9 (cleanup): {
+        drop(_11) -> bb10;               // scope 0 at test_nll.rs:12:9: 12:10
+    }
+
+    bb10 (cleanup): {
+        resume;                          // scope 0 at test_nll.rs:5:5: 13:6
+    }
+}

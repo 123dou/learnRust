@@ -1,3 +1,5 @@
+use std::vec;
+
 use rand::prelude::*;
 
 /// 冒泡排序
@@ -20,7 +22,7 @@ pub fn choice_sort(arr: &mut Vec<i32>) {
     if arr.len() <= 1 {
         return;
     }
-    let mut min = i32::min_value();
+    let mut min: i32 = i32::min_value();
     for i in 0..arr.len() {
         min = arr[i];
         for j in i..arr.len() {
@@ -121,13 +123,12 @@ pub fn heap_sort(arr: &mut Vec<i32>) {
         }
     }
     // 删除头元素
-    let mut len = arr.len() - 1;
-    while len > 0 {
-        arr.swap(0, len);
+    for end in (1..arr.len()).rev() {
+        arr.swap(0, end);
         let mut curr = 0;
         let mut child = 1;
-        while child < len {
-            if child + 1 < len && arr[child + 1] > arr[child] {
+        while child < end {
+            if child + 1 < end && arr[child + 1] > arr[child] {
                 child += 1;
             }
             if arr[child] < arr[curr] {
@@ -137,7 +138,6 @@ pub fn heap_sort(arr: &mut Vec<i32>) {
             curr = child;
             child = curr * 2 + 1;
         }
-        len -= 1;
     }
 }
 
@@ -263,8 +263,8 @@ pub fn count_sort(arr: &mut Vec<i32>) {
     if arr.len() <= 1 {
         return;
     }
-    let min = *arr.iter().min().unwrap_or(&0);
-    let max = *arr.iter().max().unwrap_or(&0);
+    let &min = arr.iter().min().unwrap_or(&0);
+    let &max = arr.iter().max().unwrap_or(&0);
     let len = (max - min + 1) as usize;
     let mut aux = vec![0; len];
     arr.iter().for_each(|&i| aux[i as usize] += 1);
