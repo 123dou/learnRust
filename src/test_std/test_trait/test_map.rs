@@ -16,11 +16,11 @@ fn test_entry_or_insert() {
 fn test_entry_insert() {
     let mut map = HashMap::new();
     map.insert("1", 1);
-    let entry = map.entry("2").insert(2);
+    let entry = map.entry("2").or_insert(2);
     println!("entry= {:?}", entry);
     println!("map = {:?}", map);
 
-    let entry = map.entry("1").insert(2);
+    let entry = map.entry("1").or_insert(2);
     println!("entry= {:?}", entry);
     println!("map = {:?}", map);
 }

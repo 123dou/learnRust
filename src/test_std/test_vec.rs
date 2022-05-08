@@ -14,6 +14,7 @@ fn test_drain_filter() {
     let mut v = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
     let evens = v.drain_filter(|x| (*x & 1) == 0).collect::<Vec<i32>>();
     println!("evens = {:?}", evens);
+    println!("v = {:?}", v);
 }
 
 #[test]
@@ -42,7 +43,7 @@ fn test_append() {
     println!("ve = {:?}", ve);
     assert_eq!(ve, [1, 2, 3, 4, 5, 6]);
     println!("ve2 = {:?}", ve2);
-    // assert_eq!(ve2, vec![]);
+    assert!(ve2.is_empty());
 }
 
 #[test]
@@ -72,7 +73,8 @@ fn test_resize_with() {
     let mut ve = vec![];
     let mut var = 1;
     ve.resize_with(5, || {
-        var *= 2 + 1;
+        var *= 2;
+        var += 1;
         var
     });
     println!("ve = {:?}", ve);
@@ -83,7 +85,7 @@ fn test_binary_search() {
     let mut ve = vec![1, 2, 3, 4, 5, 5, 6, 6, 7, 8, 10, 23];
     let result = ve.binary_search(&6);
     // 这个的返回值索引可能是６或者７
-    assert_eq!(result, Ok(7));
+    assert_eq!(result, Ok(6));
     println!("result = {:?}", result);
     // 如果没有找到则会返回，保证插入的位置而不会让破坏vec的顺序
     let idx = ve.binary_search(&9).unwrap_or_else(|xx| xx);
