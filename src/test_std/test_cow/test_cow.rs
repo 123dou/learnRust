@@ -23,7 +23,6 @@ fn test_cow() {
     abs_all(&mut i1);
     println!("IN = {:?}", s1);
     println!("OUT = {:?}", i1);
-    ///////////////////////////////
     // 这里有可变需求所以会克隆
     let s2 = [1, 2, 3, -4, 5];
     let mut i2 = Cow::from(&s2[..]);

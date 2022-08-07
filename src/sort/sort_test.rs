@@ -184,6 +184,7 @@ pub fn test_time_stamp() {
     let end = time::Instant::now();
     let duration = end - now;
     println!("{:?}", duration);
+    println!("{:?}", end);
     println!("{:?}", now.elapsed());
 }
 

@@ -18,3 +18,5 @@ all.json
 translation.json
 AllPrintings.json
 demo.json
+.vscode/launch.json
+.vscode/tasks.json

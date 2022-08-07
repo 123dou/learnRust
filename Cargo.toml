@@ -2,7 +2,7 @@
 name = "learn_rust"
 version = "0.1.0"
 authors = ["123dou <cyk.dou@gmail.com>"]
-edition = "2018"
+edition = "2021"
 
 
 # 开发模板, 对应`cargo build`命令
